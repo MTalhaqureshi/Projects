@@ -1,0 +1,86 @@
+DROP database Pharmacy;
+
+create database pharmacy;
+use pharmacy;
+
+CREATE TABLE Stock (
+  medicine_id int PRIMARY KEY,
+  -- dose varchar(50),
+  -- exp_date varchar(50),
+  quantity int UNSIGNED
+);
+ 
+CREATE TABLE Company (
+  company_id int PRIMARY KEY auto_increment,
+  name varchar(50) NOT NULL,
+  contact varchar(50) NOT NULL UNIQUE,
+  location varchar(100)
+);
+ 
+CREATE TABLE Admin (
+  username varchar(50),
+  pasword varchar(50),
+  PRIMARY KEY (username)
+);
+ 
+CREATE TABLE Medicine (
+  medicine_id int primary key auto_increment,
+  company_id int,
+  name varchar(50),
+  dose INT,
+  type varchar(50),
+  price int,
+  foreign key (company_id) references Company(company_id)
+);
+ 
+CREATE TABLE Sale (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  date date
+);
+ 
+CREATE TABLE Sale_detail (
+  sale_detail_id int AUTO_INCREMENT PRIMARY KEY,
+  sale_id int,
+  bill int,
+  medicine_id int,
+  quantity int,
+  -- foreign key (medicine_id) references stock(medicine_id),
+  foreign key (sale_id) references Sale(id)
+);
+
+CREATE TABLE Purchase (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  date date
+);
+ 
+CREATE TABLE Purchase_detail (
+   purchase_detail_id int auto_increment primary key,
+  purchase_id int NOT NULL,
+  bill int,
+  medicine_id int,
+  quantity int,
+  -- foreign key (medicine_id) references Stock(medicine_id),
+  foreign key (purchase_id) references Purchase(id)
+);
+ 
+
+INSERT INTO Company (name, contact, location)
+VALUES
+	('Pfizer', '03012345432', 'Karachi'),
+	('GlaxoSmithKline', '03012345678', 'Hyderabad'),
+    ('Novartis', '03012343210', 'Karachi'),
+    ('Getz Pharma Ltd', '03121223345', 'Karachi'),
+    ('Chiesi Farmaceutici', '03010203040', 'Islamabad'),
+    ('CCL', '03123456789', 'Sukkur'),
+    ('Merk & Co.', '03321012345', 'Sukkur'),
+    ('AGP', '03001122334', 'Karachi');
+
+INSERT INTO Medicine (company_id, name, dose, type, price)
+VALUES
+	('1', 'Panadol', '20', 'Tablet', '50'),
+    ('1', 'Panadol', '100', 'Syrup', '70'),
+    ('2', 'Calpol', '50', 'Tablet', '60'),
+    ('1', 'Brufen', '100', 'Syrup', '100'),
+    ('1', 'Tenorma', '400', 'Tablet', '850');
+
+SELECT * FROM company;
